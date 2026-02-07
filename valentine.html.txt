@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For You</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, #6e1a2b, #2b0a12);
+  color: #f5f5f5;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    section {
+      padding: 80px 20px;
+      max-width: 700px;
+      margin: auto;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1, h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 16px;
+      margin-top: 40px;
+    }
+
+    .caption {
+      margin-top: 14px;
+      font-style: italic;
+      opacity: 0.8;
+    }
+
+    .question {
+      font-size: 2.2rem;
+      margin-top: 30px;
+    }
+
+    .buttons {
+      position: relative;
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 14px 32px;
+      font-size: 1rem;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      background: #ffffff;
+      color: #000;
+      transition: 0.3s ease;
+      margin: 10px;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #noBtn {
+      position: relative;
+    }
+
+    #final {
+      display: none;
+    }
+
+    /* Tiny heart animation */
+    .heart {
+      position: fixed;
+      bottom: 20px;
+      font-size: 18px;
+      color: #ff6b81;
+      animation: floatUp 3s ease-out forwards;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-150px) scale(1.4);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Background Music -->
+  <audio autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <section>
+    <h1>Hi.</h1>
+    <p>
+      Heyy Shruti!! my Baikoo and forever life partner,<br> This page exists because some feelings<br>
+      deserve more than a message.
+    </p>
+  </section>
+
+  <section>
+    <p>
+      Some people arrive quietly…<br>
+      and somehow change everything.
+    </p>
+  </section>
+
+  <section>
+    <img src="image1.jpg" alt="">
+    <div class="caption">
+      In a world that moves fast,<br>
+      you taught me how to slow down.
+    </div>
+
+    <img src="image2.jpg" alt="">
+    <div class="caption">
+      Your care feels effortless.<br>
+      Your strength, undeniable.
+    </div>
+
+    <img src="image3.jpg" alt="">
+    <div class="caption">
+      You don’t need to be held…<br>
+      you <em>choose</em> to stay.
+    </div>
+  </section>
+
+  <section>
+    <p>
+      You show up with kindness.<br>
+      You stand tall in your own world.<br>
+      And somehow, you make space for mine.
+    </p>
+  </section>
+
+  <section>
+    <p>So here’s my question—<br>not dramatic, just honest.</p>
+    <div class="question">Will you be my Valentine?</div>
+
+    <div class="buttons">
+      <button onclick="showFinal()">Yes 💕</button>
+      <button id="noBtn" onclick="playfulNo()">Nahi 😶</button>
+    </div>
+  </section>
+
+  <section id="final">
+    <h2>Thank you for choosing me.</h2>
+    <p>I don’t take that lightly.</p>
+    <p>Happy Valentine’s Day.</p>
+  </section>
+
+  <script>
+    // Fade-in on scroll
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Filmy No button progression
+    let noClicks = 0;
+    function playfulNo() {
+      const noBtn = document.getElementById("noBtn");
+      noClicks++;
+
+      if (noClicks === 1) {
+        noBtn.innerText = "Dil thoda time maang raha hai 💭";
+        noBtn.style.transform = "translateX(-30px)";
+      } else if (noClicks === 2) {
+        noBtn.innerText = "Haan… bilkul Haan ❤️";
+        noBtn.style.transform = "none";
+        noBtn.onclick = showFinal;
+      }
+    }
+
+    // Final reveal + hearts
+    function showFinal() {
+      document.getElementById("final").style.display = "block";
+      document.getElementById("final").scrollIntoView({ behavior: "smooth" });
+
+      for (let i = 0; i < 12; i++) {
+        setTimeout(createHeart, i * 150);
+      }
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>
